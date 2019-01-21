@@ -14,7 +14,7 @@ const sync = (addValue) => {
     if (items == null) {
       items = [];
     }
-    if (addValue != null && items.indexOf(addValue) != -1) {
+    if (addValue != null && items.indexOf(addValue) === -1) {
       items.push(addValue);
     }    
     chrome.storage.sync.set({"known": items});
@@ -39,15 +39,16 @@ const updatePage = () => {
 }
 
 changeColor.onclick = function(_) {
-  updatePage();
-  chrome.tabs.onUpdated.addListener(function (tabId , info) {
-    if (info.status === 'complete' && tabId == currentTabId) {
-      chrome.tabs.executeScript(tabId, {file: 'check-logic.js'}, (res) => {
-        if (res !== null && res[0].toString() == 'true') {
-          updatePage();
-        } 
-        sync(generatedValue);
-      });
-    }
-  });
+  updatePage();  
 };
+
+chrome.tabs.onUpdated.addListener(function (tabId , info) {
+  if (info.status === 'complete' && tabId == currentTabId) {
+    chrome.tabs.executeScript(tabId, {file: 'check-logic.js'}, (res) => {
+      if (res != null && res[0] != null && res[0].toString() == 'true') {
+        updatePage();
+      } 
+      sync(generatedValue);
+    });
+  }
+});
