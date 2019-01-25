@@ -1,7 +1,7 @@
 {
-  "name": "Getting Started Example",
-  "version": "1.0",
-  "description": "Build an Extension!",
+  "name": "Lingualeo random material",
+  "version": "0.1",
+  "description": "You should be able to open new materials",
   "permissions": ["activeTab", "tabs", "declarativeContent", "storage"],
   "background": {
     "scripts": ["background.js"],
